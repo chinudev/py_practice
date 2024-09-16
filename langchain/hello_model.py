@@ -4,6 +4,12 @@ from openai import OpenAI
 
 llm_model = "gpt-3.5-turbo"
 
+# There are 3 ways to use OpenAI API in this file 
+# 1. Use OpenAI directly
+# 2. Use LangChain with a simple prompt
+# 3. Use LangChain with a parser
+
+
 def use_openai_directly():
     client = OpenAI(api_key=os.environ['OPENAI_API_KEY'])
 
@@ -28,10 +34,11 @@ def use_openai_directly():
     response = get_completion(prompt)
     print(f'response = "{response}')
 
-
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
-
+from langchain.output_parsers import ResponseSchema
+from langchain.output_parsers import StructuredOutputParser
+    
 def use_langchain_simple():
     chat = ChatOpenAI(temperature=0.0, model=llm_model)
     print('Chat client = ')
@@ -55,8 +62,6 @@ def use_langchain_simple():
     print(response.content)
     print('\n')
     print(response)
-
-
 
 def langchain_parser():
     customer_review = """\
@@ -90,10 +95,11 @@ def langchain_parser():
 
     text: {text}
     """    
-
     chat = ChatOpenAI(temperature=0.0, model=llm_model)
- 
 
+    # when you run this function, you will see the output of the model 
+    # is in a json format, but it is a string, not a dictionary. In next step we will 
+    #  define a schema and convert the output to a dictionary.
     def with_no_parser():
         prompt_template = ChatPromptTemplate.from_template(review_template)
         #print(prompt_template)
@@ -106,8 +112,7 @@ def langchain_parser():
 
     # Now let's see how we can use a schema and parser. 
     #
-    from langchain.output_parsers import ResponseSchema
-    from langchain.output_parsers import StructuredOutputParser
+
 
     gift_schema = ResponseSchema(name="gift", 
                                  description="Was the item purchased as a gift for someone else? Answer True if yes, False if not or unknown.")
@@ -154,13 +159,6 @@ def langchain_parser():
     print('\nDictionary output:')
     pprint.pprint(output_dict)
     print(output_dict.get('delivery_days'))  # Accessing a specific key in the dictionary
-
-
-
-
-
-
-
 
 
 #use_openai_directly()

@@ -1,5 +1,4 @@
-# To run this file say 
-#  flask --app server.py --debug run 
+#  python server.py  # make sure pip install flask is done
 
 # Creates a REST server for in memory store of person
 # Some tests to run 
@@ -119,3 +118,6 @@ def api_not_found(error):
 
 
 
+
+if __name__ == '__main__':
+    app.run(debug=True)

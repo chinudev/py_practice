@@ -11,5 +11,5 @@ agents.py       -- Create an agent that uses other tools, calculator and wiki in
 Samples from https://learn.deeplearning.ai/courses/langchain-chat-with-your-data  
 -- Using Jupyter notebook for these sets  
   
-load_docuemnt.ipynb     -- Load pdf and website.   
+load_docuemnt.ipynb     -- Load pdf and website.  Different ways to split into chunks.  
   
